@@ -35,7 +35,7 @@ public class UserController {
             session.setAttribute("username", loginResponse.getUsername());
             return "redirect:/user-list";
         }
-        return "login";
+        return "index";
     }
 
     @GetMapping("/register")

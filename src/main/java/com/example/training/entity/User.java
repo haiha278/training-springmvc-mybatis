@@ -13,4 +13,5 @@ public class User {
     private int age;
     private String gender;
     private LocalDate dob;
+    private Role role;
 }

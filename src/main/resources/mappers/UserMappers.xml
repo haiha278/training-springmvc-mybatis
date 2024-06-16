@@ -8,5 +8,6 @@
         <result property="age" column="age"/>
         <result property="gender" column="gender"/>
         <result property="dob" column="dateOfBirth"/>
+        <association property="role" column="role_id" javaType="Role"/>
     </resultMap>
 </mapper>

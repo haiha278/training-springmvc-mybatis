@@ -1,0 +1,8 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.training.repository.RoleRepository">
+    <resultMap id="RoleResultMap" type="com.example.training.entity.Role">
+        <id property="id" column="id"/>
+        <result property="roleName" column="role_name"/>
+        <collection property="userList" ofType="User" resultMap="UserResultMap"/>
+    </resultMap>
+</mapper>
