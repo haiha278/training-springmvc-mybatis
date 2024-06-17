@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
-
+    @Autowired
     private CustomUserDetailService customUserDetailService;
 
     @Bean
@@ -48,29 +48,42 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .cors()
+//                .and()
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeRequests()
+//                .requestMatchers("/auth/..").permitAll()
+//                .requestMatchers("/user-list").hasRole("ADMIN")
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .authenticationProvider(authenticationProvider())
+//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
         http
                 .cors()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests()
-                .requestMatchers("/auth/**", "/top-rate-mentor", "/list-mentor/**", "/uploadAvatarAndView/{folderPath}", "/view/{fileName}", "/available-skill", "/certificate", "/payment/return_url/**", "/payment/cancel_url/**", "/course/list/{userName}", "/course/{id}", "/mentee/suggest-course", "/oms/**", "/app/**", "/filter-courses", "/queue/**", "/courses").permitAll()
-                .requestMatchers("/user-wallet", "/mentee/support/{id}/confirm-end").hasAnyRole("MENTEE", "MENTOR")
-                .requestMatchers("/educationStaff/**", "/admin/enableOrDisablePost/postId/{postId}", "/admin/viewPostDetail/{urlPostId}","/admin/postList").hasAnyRole("EDUCATION_STAFF", "ADMIN")
-                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                .requestMatchers("/admin/supportDetail/**").hasAnyRole("MENTEE", "MENTOR", "ADMIN")
-                .requestMatchers("/mentee/**", "/payment/create_payment").hasRole("MENTEE")
-                .requestMatchers("/mentor/**").hasRole("MENTOR")
-                .requestMatchers("/change-password", "/profile/{username}").hasAnyRole("TRANSACTION_STAFF", "EDUCATION_STAFF", "ADMIN", "MENTOR", "MENTEE")
-                .requestMatchers("/transaction-staff/..").hasAnyRole("ADMIN", "TRANSACTION_STAFF")
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/**", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/user-list").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/auth/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(customUserDetailService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());

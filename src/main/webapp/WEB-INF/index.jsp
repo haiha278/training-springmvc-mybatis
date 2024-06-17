@@ -13,7 +13,7 @@
 <body>
 <div class="login" id="login-id">
     <!-- login page Html source -->
-    <form class="login-form" id="login-form-id" action="/login" method="post" modelAttribute="loginDTO">
+    <form class="login-form" id="login-form-id" action="${pageContext.request.contextPath}/auth/login" method="post" modelAttribute="loginDTO">
         <div class="input-info">
             <label class="label" for="username">Username:</label>
             <input

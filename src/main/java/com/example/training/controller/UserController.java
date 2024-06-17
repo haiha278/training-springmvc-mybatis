@@ -23,39 +23,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "index";
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute("loginDTO") LoginDTO loginDTO, HttpSession session) {
-        LoginDTO loginResponse = userService.login(loginDTO.getUsername());
-        if (loginResponse != null && loginResponse.getPassword().equals(loginDTO.getPassword())) {
-            session.setAttribute("username", loginResponse.getUsername());
-            return "redirect:/user-list";
-        }
-        return "index";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String register(@ModelAttribute("registerDTO") RegisterDTO registerDTO, Model model) {
-        boolean registerUserResult = userService.registerUser(registerDTO);
-        if (registerUserResult) {
-            return "redirect:/login";
-        }else {
-            String errorMessage = "Register user failed, please try again";
-            model.addAttribute("errorMessage", errorMessage);
-            return "register";
-        }
-    }
-
-
     @GetMapping("/user-list")
     public String userList(Model model) {
         List<GetAllUserDTO> getAllUserDTOList = userService.getAllUsers();
