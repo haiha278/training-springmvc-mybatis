@@ -27,3 +27,7 @@ th, td{
 td{
     text-align: center;
 }
+
+thead{
+    background-color : gainsboro;
+}

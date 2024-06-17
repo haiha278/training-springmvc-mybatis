@@ -1,28 +1,37 @@
-package com.example.training.entity;
+package com.example.training.security;
 
+import com.example.training.entity.Role;
+import com.example.training.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
 @Data
-public class User implements UserDetails {
-    private int id;
+public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
     private String name;
     private int age;
     private String gender;
-    private LocalDate dob;
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getRoleName()));
+    }
+
+    public static CustomUserDetails mapUserToCustomerUserDetails(User user) {
+        CustomUserDetails customUserDetails = new CustomUserDetails();
+        customUserDetails.setUsername(user.getUsername());
+        customUserDetails.setPassword(user.getPassword());
+        customUserDetails.setName(user.getName());
+        customUserDetails.setAge(user.getAge());
+        customUserDetails.setGender(user.getGender());
+        return customUserDetails;
     }
 
     @Override
@@ -52,6 +61,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled();
+        return true;
     }
 }

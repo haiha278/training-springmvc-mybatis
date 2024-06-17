@@ -11,5 +11,5 @@ public class GetAllUserDTO {
     private String name;
     private int age;
     private String gender;
-    private LocalDate dateOfBirth;
+    private LocalDate dob;
 }

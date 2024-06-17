@@ -9,6 +9,7 @@ import com.example.training.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +27,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<GetAllUserDTO> getAllUsers() {
         List<GetAllUserDTO> userList = userRepository.findAll().stream().map(user -> {
-            GetAllUserDTO getAllUserDTO = new GetAllUserDTO();
-            getAllUserDTO.setId(user.getId());
-            getAllUserDTO.setName(user.getName());
-            getAllUserDTO.setAge(user.getAge());
-            getAllUserDTO.setGender(user.getGender());
-            getAllUserDTO.setUsername(user.getUsername());
+            GetAllUserDTO getAllUserDTO = (GetAllUserDTO) mapper.mapToDTO(user, GetAllUserDTO.class);
+//            GetAllUserDTO getAllUserDTO = new GetAllUserDTO();
+//            getAllUserDTO.setId(user.getId());
+//            getAllUserDTO.setName(user.getName());
+//            getAllUserDTO.setAge(user.getAge());
+//            getAllUserDTO.setGender(user.getGender());
+//            getAllUserDTO.setUsername(user.getUsername());
+//            LocalDate localDate = user.getDob();
+//            getAllUserDTO.setDateOfBirth(localDate);
             return getAllUserDTO;
         }).toList();
         return userList;
